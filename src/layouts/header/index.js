@@ -56,9 +56,10 @@ export const HeaderComponent = (props) => {
             </div>
             <div className = "border-b border-l border-r py-4 w-full">
                 <div className = "mx-auto w-1/2 flex flex-row justify-between font-semibold">
-                    {categories.map((data) => {
+                    {categories.map((data, index) => {
                         return(
                             <Category
+                                key = {index}
                                 categoryName = {data.name}
                                 location = {data.location}
                             ></Category>

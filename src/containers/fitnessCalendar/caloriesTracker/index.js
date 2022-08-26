@@ -1,21 +1,21 @@
 import React, {useState, useEffect, Fragment} from "react";
-import { HeaderComponent } from "../header";
-import { FooterComponent } from "../footer";
+import { HeaderComponent } from "../../../layouts/header";
+import { FooterComponent } from "../../../layouts/footer";
 import { Outlet } from "react-router-dom";
 import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-import { FeatureButton } from "../../components/featureButton";
-import { SideAccordion } from "../../components/sideAccordion";
+import { FeatureButton } from "../../../components/featureButton";
+import { SideAccordion } from "../../../components/sideAccordion";
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Typography from '@mui/material/Typography';
 import Calendar from 'react-calendar';
-import '../../components/calendar/Calendar.css';
-import { CaloriesCounter } from "../../components/caloriesCounter";
-import { MacroText } from "../../components/macroText";
+import '../../../components/calendar/Calendar.css';
+import { CaloriesCounter } from "../../../components/caloriesCounter";
+import { MacroText } from "../../../components/macroText";
 
 
 
@@ -100,9 +100,10 @@ export const HomePage = (props) => {
             <div className = "flex flex-row flex-grow h-full">
                 <div className = "flex flex-col border-r">
                     {
-                        categories.map((data) => {
+                        categories.map((data, index) => {
                             return(
                                 <SideAccordion 
+                                    key = {index}
                                     categoryName = {data.name}
                                     subCategories = {data.subCategories}
                                 ></SideAccordion>
@@ -123,21 +124,21 @@ export const HomePage = (props) => {
                 </div>
                 <div className = "flex-grow h-full p-12  my-auto">
                     <div className = "justify-around flex-grow flex flex-col h-full my-auto">
-                    <div>
-                        <div className = "font-extrabold" style = {{fontSize:"48px"}}>   
-                            CALORIES INTAKE
-                        </div>
+                        <div>
+                            <div className = "font-extrabold" style = {{fontSize:"48px"}}>   
+                                CALORIES INTAKE
+                            </div>
                             <CaloriesCounter
                                 currentCalo = {currentCalo}
                                 caloNeeded = {caloNeeded}
                                 errorMargin = {errorMargin}
                             ></CaloriesCounter>
-                    </div>
-                        <MacroText
-                            currentCalo = {currentCalo}
-                            caloNeeded = {caloNeeded}
-                            errorMargin = {errorMargin}
-                        ></MacroText>
+                        </div>
+                            <MacroText
+                                currentCalo = {currentCalo}
+                                caloNeeded = {caloNeeded}
+                                errorMargin = {errorMargin}
+                            ></MacroText>
                     </div>
                 </div>
             </div>

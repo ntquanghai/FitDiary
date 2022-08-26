@@ -3,7 +3,8 @@ import './App.css';
 import { LogInPage } from './containers/logInPage';
 import { Routes, Route } from 'react-router-dom';
 import { SignUpPage } from './containers/signUpPage';
-import { HomePage } from './layouts/homePageLayout';
+import { HomePage } from './containers/fitnessCalendar/caloriesTracker';
+import { FitnessTracker } from './containers/fitnessCalendar/fitnessTracker';
 
 function App() {
   return (
@@ -11,9 +12,9 @@ function App() {
       <Routes>
         <Route path = "/login" element = {<LogInPage/>}></Route>
         <Route path = "/signup" element = {<SignUpPage/>}></Route>
-        <Route path = "/" element = {<HomePage/>}>
-          <Route path = "/nutritional-value"></Route>
-          <Route path = "/calories-tracker"></Route>
+        <Route path = "/">
+          <Route path = "/fitness-tracker" element = {<FitnessTracker/>}></Route>
+          <Route path = "/calories-tracker" element = {<HomePage/>}></Route>
           <Route path = "/calories-calculator"></Route>
         </Route>
       </Routes>

@@ -22,9 +22,9 @@ export const SideAccordion = (props) => {
             </AccordionSummary>
             <AccordionDetails sx = {{padding: 0}}>
                 <div className = "flex flex-col">
-                    {props.subCategories.map((data) => {
+                    {props.subCategories.map((data, index) => {
                         return(
-                            <button className = "cursor-pointer px-4 py-2 text-left hover:bg-gray-50">
+                            <button className = "cursor-pointer px-4 py-2 text-left hover:bg-gray-50" key = {index}>
                                 {data}
                             </button>
                         )
