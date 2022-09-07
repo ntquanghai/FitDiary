@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export const Category = (props) => {
     return(
-        <Link to = {props.location}>
+        <Link to = {"/"+props.location}>
             <div className = "hover:text-red-300">
                 {props.categoryName}
             </div>

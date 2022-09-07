@@ -310,8 +310,23 @@ export const RoutineList = (props) => {
         }
     }
 
+    const tempDay = props.day
     const [searchValue, setSearchValue] = useState(props.value);
-
+    
+    useEffect(() => {
+        if(!props.routine) {
+            if(searchValue != props.value) {
+                ((tempDay).fitnessRoutine.routines[props.pos].id = searchValue)
+                props.setDay(tempDay)
+            }
+        }
+        else {
+            if(searchValue != props.value) {
+                ((tempDay)[props.pos].id = searchValue)
+                props.setDay(tempDay)
+            }
+        }
+    })
 
     const handleSelect = (event) => {
         setSearchValue(event.target.value);
@@ -353,29 +368,31 @@ export const RoutineList = (props) => {
 
 
     return (
-        <Box className = " ">
-            <FormControl variant="standard" sx ={{marignBottom:"4px"}}>
+        <div>
+            <Box className = " ">
+                <FormControl variant="standard" sx ={{marignBottom:"4px"}}>
 
-            <Select
-                value = {searchValue}
-                onChange={handleSelect}
-                disableUnderline
-                MenuProps={MenuProps}
-                sx = {{minWidth:"280px",backgroundColor:"white",flexGrow:1,fontSize: 16,textAlign:"center",marginRight:"0px",'& .MuiSelect-select': {
-                    padding: '10px'
-                }}}
-                >
-                    {
-                        getAllIds(exercises).map((data, i)=> {
-                            return(                            
-                                <MenuItem key = {i} value={data} sx = {{overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display:"block"}}>{searchExerciseById(data, exercises).exercise}</MenuItem>
-                            )
-                        })
-                    }
-                </Select>
-                
-            </FormControl>
-        </Box>
+                <Select
+                    value = {searchValue}
+                    onChange={handleSelect}
+                    disableUnderline
+                    MenuProps={MenuProps}
+                    sx = {{width:"200px",backgroundColor:"white",flexGrow:1,fontSize: 16,textAlign:"left",marginRight:"0px",'& .MuiSelect-select': {
+                    }}}
+                    
+                    >
+                        {
+                            getAllIds(exercises).map((data, i)=> {
+                                return(                            
+                                    <MenuItem  key = {i} value={data} sx = {{overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display:"block"}}>{searchExerciseById(data, exercises).exercise}</MenuItem>
+                                )
+                            })
+                        }
+                    </Select>
+                    
+                </FormControl>
+            </Box>
+        </div>
     );
 }
 

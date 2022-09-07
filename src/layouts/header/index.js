@@ -54,8 +54,10 @@ export const HeaderComponent = (props) => {
                       }}
                 />
             </div>
-            <div className = "border-b border-l border-r py-4 w-full">
-                <div className = "mx-auto w-1/2 flex flex-row justify-between font-semibold">
+            <div className = "border-b border-l border-r py-4 w-full px-16 flex ">
+            <div className = "font-extrabold text-2xl">NUTRITIONS</div>
+
+                <div className = "my-auto ml-auto w-1/4  flex flex-row justify-between font-semibold ">
                     {categories.map((data, index) => {
                         return(
                             <Category

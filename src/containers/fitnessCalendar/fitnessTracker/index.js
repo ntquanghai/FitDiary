@@ -7,15 +7,93 @@ import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import { SideAccordion } from "../../../components/sideAccordion";
 import Calendar from 'react-calendar';
 import '../../../components/calendar/Calendar.css';
-import { Checkbox } from "@mui/material";
-import { RoutineList } from "../../../components/workoutRoutine/routineList";
 import { RoutineTable } from "../../../components/workoutRoutine/routineTable";
+import Button from '@mui/material/Button';
+import dayjs from 'dayjs';
 
 
 export const FitnessTracker = (props) => {
 
-    const [value, onChange] = useState(new Date());
+    const [value, setValue] = useState(new Date());
 
+    const [dayDate, setDayDate] = useState('')
+
+    const [calendar, setCalendar] = useState([
+        {
+            day: "01/09/2022",
+            fitnessRoutine: {
+                routines: [
+                    {
+                        id: "c0",
+                        sets: {
+                            duration: false,
+                            sets: "None",
+                            reps: "None",
+                        },
+                        weights: "65kg",
+                        location: "123123123",
+                        finished: true
+                    },
+                    {
+                        id: "c1",
+                        sets: {
+                            duration: 300,
+                            sets: 4,
+                            reps: 8,
+                        },
+                        weights: "50kg",
+                        location: "123123123",
+                        finished: true
+                    },
+                    {
+                        id: "c9",
+                        sets: {
+                            duration: false,
+                            sets: 4,
+                            reps: 8,
+                        },
+                        weights: "40kg",
+                        location: "123123123",
+                        finished: true
+                    },{
+                        id: "s1",
+                        sets: {
+                            duration: false,
+                            sets: 4,
+                            reps: 8,
+                        },
+                        weights: "50kg",
+                        location: "123123123",
+                        finished: true
+                    },{
+                        id: "a2",
+                        sets: {
+                            duration: false,
+                            sets: 4,
+                            reps: 8,
+                        },
+                        weights: "25kg",
+                        location: "123123123",
+                        finished: true
+                    },
+                ] 
+            }
+        },
+        {
+
+        }
+    ])
+
+    const onChange = (event) => {
+        setValue((event))
+        setDayDate(event.toLocaleDateString('en-GB')) 
+    }
+
+    useEffect(() => {
+        if(dayDate) {
+            setDay(findDay(dayDate))
+        }
+    })
     const exercises = [
         {   
             id : 0,
@@ -345,100 +423,61 @@ export const FitnessTracker = (props) => {
             }
         }
     });
-    const [routine, setRoutine] = useState(
-        [
-            {
-                id: "c0",
-                exercise: 'Barbell flat bench press',
-                sets: {
-                    duration: false,
-                    sets: 4,
-                    reps: 8,
-                },
-                weights: "65kg",
-                location: "123123123"
-            },
-            {
-                id: "c1",
-                exercise: 'Barbell incline bench press',
-                sets: {
-                    duration: 300,
-                    sets: 4,
-                    reps: 8,
-                },
-                weights: "50kg",
-                location: "123123123"
-            },
-            {
-                id: "c9",
-                exercise: 'Machine chest fly',
-                sets: {
-                    duration: false,
-                    sets: 4,
-                    reps: 8,
-                },
-                weights: "40kg",
-                location: "123123123"
-            },{
-                id: "s1",
-                exercise: 'Seated shoulder press',
-                sets: {
-                    duration: false,
-                    sets: 4,
-                    reps: 8,
-                },
-                weights: "50kg",
-                location: "123123123"
-            },{
-                id: "a2",
-                exercise: 'Cabel bicep curls',
-                sets: {
-                    duration: false,
-                    sets: 4,
-                    reps: 8,
-                },
-                weights: "25kg",
-                location: "123123123"
-            },
-        ] 
-    )
-
-    const [day, setDay] = useState(
-        [
-            {
-                fitnessRoutine: {
-                    day: "22/08/2022",
-                    routines: [
-                        {
-                            id: "c0",
-                            finished: true,
-                        },
-                        {
-                            id: "c1",
-                            finished: true,
-                        },
-                        {
-                            id: "c9",
-                            finished: false,
-                        },
-                        {
-                            id: "s1",
-                            finished: true,
-                        },
-                        {
-                            id: "a2",
-                            finished: false
-                        }
-                    ]
-                }
-            }
-        ]
-    )
 
     
+
+    const findDay = (dayInput) => {
+        return calendar.find(day => day.day === dayInput);
+    }
+
+    const generateDayIfNone = (day) => {
+        if(!findDay(day)) { 
+            const tempDay = {
+                day: day,
+                fitnessRoutine: {
+                    off: false,
+                    routines: []
+                },
+                calories: {},
+            }
+            calendar.push(tempDay);
+            setCalendar([...calendar])
+        }
+    }
+
+    const offDay = (day) => {
+        if(!findDay(day)) { 
+            const tempDay = {
+                day: day,
+                fitnessRoutine: {
+                    off: true,
+                    routines: []
+                },
+                calories: {},
+            }
+            calendar.push(tempDay);
+            setCalendar([...calendar])
+        }
+    }
+
+    const [day, setDay] = useState()
+
+
+    console.log(day)
+
+    const removeExercise = (pos) => {   
+        day.fitnessRoutine.routines.splice(pos, 1);
+        setDay({...day})
+    }
+
+    const addRoutineToDay = (array) => {
+        day.fitnessRoutine.routines = day.fitnessRoutine.routines.concat(array)
+        setDay({...day})
+    }
+
     const checkFinished = (day) => {
-        for(let i = 0; i < day[0].fitnessRoutine.routines.length; i++) {
-            if(!day[0].fitnessRoutine.routines[i].finished) {
+        for(let i = 0; i < day.fitnessRoutine.routines.length; i++) {
+            if(!day.fitnessRoutine.routines[i].finished) {
                 return false
             }
         }
@@ -477,8 +516,9 @@ export const FitnessTracker = (props) => {
             destination: "",
         },
     ]
+
     return(
-        <div className = "flex flex-col flex-grow">
+        <div className = "flex flex-col flex-grow" style = {{minHeight:"100vh"}}>
             <HeaderComponent></HeaderComponent>
             <div className = "flex flex-row flex-grow h-full">
                 <div className = "flex flex-col border-r">
@@ -495,57 +535,77 @@ export const FitnessTracker = (props) => {
                     }
                 </div>
                 <div style = {{minWidth: "40%"}} className = "flex flex-col w-2/5 border-r">
-                    {/* <div className = " py-4 font-extrabold" style = {{fontSize:"48px"}}>Welcome, username.</div> */}
                     <div className = "flex justify-between flex-grow">
                         <div className = "w-full h-full ">
                             <Calendar 
                             className = ""
-                            onChange={onChange} value={value} />
+                            onChange={onChange} value={value}
+                            />
                         </div>
                        
                     </div>
                 </div>
-                <div className = "flex-grow h-full p-12  my-auto">
-                    <div className = "flex-grow h-full my-auto">
-                        <div className = "justify-around flex-grow flex flex-col h-full">
-                            <div>
-                                <div className = "font-extrabold" style = {{fontSize:"48px"}}>   
-                                    FITNESS ROUTINE
-                                </div>
-                                <div className = "mt-2">
-                                    {checkFinished(day)
+                {day
+                ?
+                <div className = "flex flex-col flex-grow h-full " style = {{}}>
+                    {day.fitnessRoutine.off
+                    ?
+                    <div className = "text-gray-600 my-auto uppercase text-center font-bold" style = {{fontSize:"32px"}}>Today is your off day. Happy resting!</div>
+                    :
+                    <div className = "flex-grow h-full">
+                        <div className = "justify-between flex flex-col h-full">
+                            <div className = "h-full flex flex-col">
+                                <div>
+                                {checkFinished(day)
                                         ?
-                                            <div className = "text-3xl font-bold text-green-500">
-                                                PUSH DAY
+                                            <div>
+                                                {day.fitnessRoutine.routines.length > 0
+                                                ?
+                                                <div className = "text-center font-extrabold text-green-500" style = {{fontSize:"48px"}}>
+                                                    WORKOUT
+                                                </div>
+                                                :
+                                                <div className = "text-center font-extrabold text-red-500" style = {{fontSize:"48px"}}> 
+                                                    WORKOUT
+                                                </div>
+                                                }
+                                                
                                             </div>
                                         :
-                                            <div className = "text-3xl font-bold text-red-500">
-                                                PUSH DAY
+                                            <div className = "text-center font-extrabold text-red-500" style = {{fontSize:"48px"}}> 
+                                                WORKOUT
                                             </div>
-                                    }   
-                                    <div className = "mt-4 flex flex-row">
-                                        {/* <Checkbox  sx = {{padding:"0px",
-                                            '& .MuiSvgIcon-root': { fontSize: 24 },  
-                                            color: "#ef4444",
-                                            '&.Mui-checked': {
-                                            color: "#ef4444",
-                                            },}}
-                                        />
-                                        <div className = "ml-2">
-                                            <RoutineList/>
-                                        </div> */}
+                                }   
+                                </div>
+                                <div className = "flex flex-col h-full">
+                                    <div className = "flex flex-row flex-grow  w-full">
                                         <RoutineTable
+                                            checkFinished = {checkFinished}
                                             day = {day}
                                             setDay = {setDay}
-                                            routine = {routine}
-                                            setRoutine = {setRoutine}
+                                            removeExercise = {removeExercise}
+                                            addRoutineToDay = {addRoutineToDay}
                                         ></RoutineTable>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    }
                 </div>
+                :
+                <div className = "p-12 font-bold flex-grow my-auto">
+                    <div className = "text-center" style = {{fontSize:"32px"}}> You have not set up a workout routine</div>
+                    <div className = "flex justify-around w-2/3 mx-auto mt-4">
+                        <Button onClick = {() => generateDayIfNone(dayDate)} id="modal-modal-title" variant="h1" component="h1" sx = {{fontWeight:"bold"}}>
+                            Add exercise
+                        </Button>
+                        <Button onClick = {() => offDay(dayDate)} id="modal-modal-title" variant="h7" component="h3" sx = {{fontWeight:"bold"}}>
+                            Off day
+                        </Button>
+                    </div>
+                </div>
+                }
             </div>
             <FooterComponent></FooterComponent>
         </div>
