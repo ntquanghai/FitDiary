@@ -12,12 +12,13 @@ import {BasicTabs} from "../../../components/macroTabs";
 
 export const CalculatorPage = (props) => {
     const [activity, setActivity] = useState(1.2);
-    const [age, setAge] = useState('');
-    const [weight, setWeight] = useState('');
-    const [height, setHeight] = useState('');
+    const [age, setAge] = useState();
+    const [weight, setWeight] = useState();
+    const [height, setHeight] = useState();
     const [gender, setGender] = useState(1);
     const [tdee, setTdee] = useState();
     const [caloList, setCaloList] = useState();
+    const [invalid, setInvalid] = useState(false);
     
     const [macroRate, setMacroRate] = useState(
         [
@@ -121,52 +122,62 @@ export const CalculatorPage = (props) => {
     ]
 
     const tdeeCalculator = () => {
-        if(gender === 1) {
-            const bmr = ((88 + (13.4*weight) + (4.8*height) -(5.7*age)))
-            const bmrList = [
-                {
-                    type: "Sedentary (little or no exercise, desk job)",
-                    value: 1.2,
-                    cal: 1.2*bmr,
-                    chosen: 1.2===activity
-                },
-                {
-                    type: "Lightly active (light exercise/ sports 1-3 days/week)",
-                    value: 1.375,
-                    cal: 1.375*bmr,
-                    chosen: 1.375===activity
-                },
-                {
-                    type: "Moderately active (moderate exercise/ sports 6-7 days/week)",
-                    value: 1.55,
-                    cal: 1.55*bmr,
-                    chosen: 1.55===activity
-                },
-                {
-                    type: "Very active (hard exercise every day, or exercising 2 xs/day)",
-                    value: 1.725,
-                    cal: 1.725*bmr,
-                    chosen: 1.725===activity
-                },
-                {
-                    type: "Extra active (hard exercise 2 or more times per day, or training for marathon, or triathlon, etc.)",
-                    value: 1.9,
-                    cal: 1.9*bmr,
-                    chosen: 1.9===activity
-                },
-            ]
-            setTdee(bmrList)
-            setCaloList(
-                {
-                    caloMain: Math.floor(findActivity(bmrList,activity).cal),
-                    caloBulk:  Math.floor(findActivity(bmrList,activity).cal) +500,
-                    caloCut: Math.floor(findActivity(bmrList,activity).cal) -500,        
-                }
-            )
+        if(!Number.isInteger(Number(age)) || !(Number.isInteger(Number(weight))) || !(Number.isInteger(Number(weight)))) {
+           setInvalid(true)
+            return(
+            <div></div>
+           )     
         }
         else {
-            console.log(activity*(665 + (9.6*weight) + (1.8*height) -(4.7*age)))
-            setTdee(activity*(665 + (9.6*weight) + (1.8*height) -(4.7*age)))
+            if(gender === 1) {
+                const bmr = ((88 + (13.4*weight) + (4.8*height) -(5.7*age)))
+                const bmrList = [
+                    {
+                        type: "Sedentary (little or no exercise, desk job)",
+                        value: 1.2,
+                        cal: 1.2*bmr,
+                        chosen: 1.2===activity
+                    },
+                    {
+                        type: "Lightly active (light exercise/ sports 1-3 days/week)",
+                        value: 1.375,
+                        cal: 1.375*bmr,
+                        chosen: 1.375===activity
+                    },
+                    {
+                        type: "Moderately active (moderate exercise/ sports 6-7 days/week)",
+                        value: 1.55,
+                        cal: 1.55*bmr,
+                        chosen: 1.55===activity
+                    },
+                    {
+                        type: "Very active (hard exercise every day, or exercising 2 xs/day)",
+                        value: 1.725,
+                        cal: 1.725*bmr,
+                        chosen: 1.725===activity
+                    },
+                    {
+                        type: "Extra active (hard exercise 2 or more times per day, or training for marathon, or triathlon, etc.)",
+                        value: 1.9,
+                        cal: 1.9*bmr,
+                        chosen: 1.9===activity
+                    },
+                ]
+                setTdee(bmrList)
+                setCaloList(
+                    {
+                        caloMain: Math.floor(findActivity(bmrList,activity).cal),
+                        caloBulk:  Math.floor(findActivity(bmrList,activity).cal) +500,
+                        caloCut: Math.floor(findActivity(bmrList,activity).cal) -500,        
+                    }
+                )
+                setInvalid(false)
+                
+            }
+            else {
+                console.log(activity*(665 + (9.6*weight) + (1.8*height) -(4.7*age)))
+                setTdee(activity*(665 + (9.6*weight) + (1.8*height) -(4.7*age)))
+            }
         }
     }
     
@@ -190,7 +201,14 @@ export const CalculatorPage = (props) => {
                 </div>
                 <div className = "flex flex-row w-full">   
                     <div className = "flex flex-col border-r p-12">    
-                        <div className = "my-auto">    
+                        <div className = "my-auto">  
+                        {invalid
+                        ?
+                        <div className="text-center mb-8 font-base text-xl text-red-500">Pleas fill in the form correctly.</div>  
+                        :
+                        <div></div>
+                        }
+
                             <div className = "font-bold text-3xl text-center">
                                 TDEE CALCULATOR
                             </div>

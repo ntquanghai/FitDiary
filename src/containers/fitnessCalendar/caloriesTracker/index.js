@@ -16,7 +16,7 @@ import Calendar from 'react-calendar';
 import '../../../components/calendar/Calendar.css';
 import { CaloriesCounter } from "../../../components/caloriesCounter";
 import { MacroText } from "../../../components/macroText";
-
+import { FoodTable } from "../../../components/foodTable";
 
 
 
@@ -60,7 +60,150 @@ export const HomePage = (props) => {
             }
         }
     });
+    const foodData = [
+        {
+          id: 1,
+          name: "beef",
+          scale: {
+            value: 100,
+            type: "g"
+          },
+          cal: 200,
+          pro: 35,
+          fat: 10,
+          carb: 6
+        },
+        {
+          id: 2,
+          name: "chicken",
+          scale: {
+            value: 100,
+            type: "g"
+          },
+          cal: 180,
+          pro: 30,
+          fat: 6,
+          carb: 6
+        },
+        {
+          id: 3,
+          name: "pork",
+          scale: {
+            value: 100,
+            type: "g"
+          },
+          cal: 210,
+          pro: 39,
+          fat: 12,
+          carb: 4
+        },
+        {
+          id: 3,
+          name: "pork",
+          scale: {
+            value: 100,
+            type: "g"
+          },
+          cal: 210,
+          pro: 39,
+          fat: 12,
+          carb: 4
+        },
+        {
+          id: 3,
+          name: "pork",
+          scale: {
+            value: 100,
+            type: "g"
+          },
+          cal: 210,
+          pro: 39,
+          fat: 12,
+          carb: 4
+        },
+        {
+          id: 3,
+          name: "pork",
+          scale: {
+            value: 100,
+            type: "g"
+          },
+          cal: 210,
+          pro: 39,
+          fat: 12,
+          carb: 4
+        },
+        {
+          id: 3,
+          name: "pork",
+          scale: {
+            value: 100,
+            type: "g"
+          },
+          cal: 210,
+          pro: 39,
+          fat: 12,
+          carb: 4
+        },
+        {
+          id: 3,
+          name: "pork",
+          scale: {
+            value: 100,
+            type: "g"
+          },
+          cal: 210,
+          pro: 39,
+          fat: 12,
+          carb: 4
+        },
+        {
+          id: 3,
+          name: "pork",
+          scale: {
+            value: 100,
+            type: "g"
+          },
+          cal: 210,
+          pro: 39,
+          fat: 12,
+          carb: 4
+        },
+      ]
 
+    const [dayMeal, setDayMeal] = useState()
+
+    useEffect(()=> {
+        const returnedList = {
+            cal: 0,
+            pro: 0,
+            fat: 0,
+            carb: 0
+        }
+        for(let i = 0; i < foodData.length; i++) {
+            returnedList.cal += foodData[i].cal;
+            returnedList.pro += foodData[i].pro;
+            returnedList.fat += foodData[i].fat;
+            returnedList.carb += foodData[i].carb;
+        }
+        setDayMeal(returnedList)
+    },[])
+
+    const calTotalNutrition = (foodData) => {
+    const returnedList = {
+        cal: 0,
+        pro: 0,
+        fat: 0,
+        carb: 0
+    }
+    for(let i = 0; i < foodData.length; i++) {
+        returnedList.cal += foodData[i].cal;
+        returnedList.pro += foodData[i].pro;
+        returnedList.fat += foodData[i].fat;
+        returnedList.carb += foodData[i].carb;
+    }
+    return returnedList
+    }
 
     const categories = [
         {
@@ -122,22 +265,32 @@ export const HomePage = (props) => {
                        
                     </div>
                 </div>
-                <div className = "flex-grow h-full p-12  my-auto">
-                    <div className = "justify-around flex-grow flex flex-col h-full my-auto">
-                        <div>
-                            <div className = "font-extrabold" style = {{fontSize:"48px"}}>   
-                                CALORIES INTAKE
-                            </div>
+                <div className = "flex-grow h-full flex flex-col  my-auto">
+                    <div className = "">
+                        <FoodTable 
+                        foodData = {foodData}
+                        calTotalNutrition = {calTotalNutrition}
+                        dayMeal = {dayMeal}
+                        ></FoodTable>
+                    </div>
+                    <div className = "justify-around flex-grow flex h-full my-auto mt-12">
+                        <div className = "">
                             <CaloriesCounter
                                 currentCalo = {currentCalo}
                                 caloNeeded = {caloNeeded}
                                 errorMargin = {errorMargin}
+                                foodData  = {foodData}
+                                calTotalNutrition = {calTotalNutrition}
+                                dayMeal = {dayMeal}
                             ></CaloriesCounter>
                         </div>
                             <MacroText
                                 currentCalo = {currentCalo}
                                 caloNeeded = {caloNeeded}
                                 errorMargin = {errorMargin}
+                                foodData = {foodData}
+                                calTotalNutrition = {calTotalNutrition}
+                                dayMeal = {dayMeal}
                             ></MacroText>
                     </div>
                 </div>

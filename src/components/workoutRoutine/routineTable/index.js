@@ -37,9 +37,9 @@ export const RoutineTable = (props) => {
     }
     
     return (
-            <TableContainer component={Paper} sx = {{maxHeight:702,height:"100%", width: "100%" ,borderRadius:0,borderTop:"0px solid rgba(224, 224, 224, 1)"}} >
+            <TableContainer  sx = {{display:"flex", flexDirection:"column",maxHeight:620,height:"100%", width: "100%" ,borderRadius:0,borderTop:"1px solid rgba(224, 224, 224, 1)", borderBottom:"0px solid rgba(224, 224, 224, 1)"}} >
 
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <Table sx={{ height:"100%",minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                 <TableRow className = "asdfasdfasdfasdfasdfadsfadsf">
                     <TableCell align="left" sx = {{fontSize:"18px", fontWeight:"bold"}} className = "text-center">Exercises</TableCell>
@@ -51,14 +51,14 @@ export const RoutineTable = (props) => {
                     <TableCell align="left" sx = {{fontSize:"18px", fontWeight:"bold"}}>Remove</TableCell>
                 </TableRow>
                 </TableHead>
-                <TableBody>
+                <TableBody sx = {{flexGrow:1}}>
                 {day.fitnessRoutine.routines.map((data, index) => (
                     <TableRow
                         key={index}
                         sx={{ '&:last-child td, &:last-child th': { } }}
                         value = {data.id}
                     >
-                    <TableCell component="th" scope="row" align="left" sx = {{height: 102}}>
+                    <TableCell component="th" scope="row" align="left" sx = {{height: 100}}>
                         <RoutineList
                             pos={index}
                             value = {findRoutine(day.fitnessRoutine.routines, data.id).id}
@@ -98,7 +98,7 @@ export const RoutineTable = (props) => {
                 </TableBody>
 
             </Table>
-            <div className = "flex justify-between px-8 py-4 flex-grow" style = {{}}>
+            <div className = "flex-grow flex justify-between px-8 py-4 h-full" style = {{}}>
                 <BasicModal day = {day} setDay = {setDay} addRoutineToDay = {props.addRoutineToDay} ></BasicModal>
             </div>
             </TableContainer>
